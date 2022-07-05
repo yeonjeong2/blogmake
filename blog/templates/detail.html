@@ -1,0 +1,50 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<form style="margin: 20px">
+  <div class="card mb-3">
+    <h4 class="card-header">
+      <div class="card-body">{{ blog_detail.title }}</div>
+    </h4>
+
+    {% if blog_detail.photo %}
+    <div style="height: 200px">
+      <img src="{{ blog_detail.photo.url}}" alt="" style="height: 100%" />
+    </div>
+    {% endif %}
+    <div class="card-body">
+      <p class="card-text">{{ blog_detail.content }}</p>
+    </div>
+    <div class="card-footer text-muted">{{ blog_detail.date }}</div>
+  </div>
+</form>
+<br/>
+<ol class="breadcrumb">
+  <li class="breadcrumb-item active" style="margin-left:10px;">Comment Line</li>
+</ol>
+<form
+  method="POST"
+  action="{% url 'makecomment' blog_detail.id %}"
+  style="margin: 10px">
+  {% csrf_token %}
+  {{ comment_form }}
+  <div class="form-group">
+    <textarea
+      name="comment"
+      class="form-control"
+      id="exampleTextarea"
+      rows="3"
+      style="margin-left: 10px;"
+    ></textarea>
+  </div>
+  <br />
+  <button type="submit" class="btn btn-secondary" style="margin: 10px;">Submit</button>
+</form>
+<hr>
+<form style="margin: 20px;">
+  {% for comment in blog_detail.comment_set.all %}
+  <p>{{ comment }}</p>
+  <hr>
+  {% endfor %}
+</form>
+{% endblock %}

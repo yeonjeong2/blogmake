@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}"/>
+    <title>Document</title>
+</head>
+<body>
+  <style>
+    .btn-box {
+      width: 300px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .btn-box > p {
+      margin-bottom: 0;
+    }
+  </style>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'home' %}">Likelion5</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarColor03">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">게시판
+              <span class="visually-hidden">(current)</span>
+            </a>
+          </li>
+        </ul>
+        <form class="d-flex btn-box">
+          {% if user.is_authenticated %}
+          <p style="margin-right: 10;">안녕하세요, {{ user.username }}님</p>
+          <div style="float: right">
+            <button type="submit" class="btn btn-secondary">
+              <a href="{% url 'logout' %}" style="color: black">로그아웃</a>
+              {% csrf_token %}
+            </button>
+          </div>
+          {% else %}
+          <p style="margin-right: 10;">아직 로그인이 되지 않았습니다.</p>
+          <div style="float: right">
+            <button type="submit" class="btn btn-secondary">
+              <a href="{% url 'login' %}" style="color: black">로그인</a>
+              {% csrf_token %}
+            </button>
+          </div>
+          {% endif %}
+        </form>
+      </div>
+    </div>
+  </nav>
+  <br/>
+  {% if user.is_authenticated %}
+  <a style="color:black; font-weight: bold; float:right; margin-right: 10px;" href="{% url 'new' %}">새 글 작성</a>
+  {% endif %}
+      </div>
+    </div>
+  </nav>
+    {% block content %}
+    <table class="table table-hover" style="margin:20px">
+      <br/>
+        <thead>
+        <tr>
+          <th scope="row">No</th>
+          
+          <td>Title</td>
+          <td>Content</td>
+          <td>Date</td>
+        </tr>
+        {% for post in posts %}
+        <tr>
+          <td>{{ post.pk }}</td>
+          <td><a style="color: slategray;" href="{% url 'detail' post.id %}">{{ post.title }}</a></td>
+          <td>{{ post.content }}</td>
+          <td>{{ post.date }}</td>
+        </tr>
+        {% endfor %}  
+    </tbody>
+    </table>
+    {% endblock %}
+</body>
+</html>

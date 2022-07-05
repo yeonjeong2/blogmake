@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+{% block content %}
+<form action = '', method = 'POST', enctype="multipart/form-data">
+<form class="d-flex">
+  </form>
+</div>
+</div>
+</nav>
+<form
+style="margin: 20px"
+action="{% url 'create' %}"
+method="POST"
+enctype="multipart/form-data"
+>
+{% csrf_token %}
+<fieldset>
+<div class="form-group">
+  <label for="exampleInputEmail1" class="form-label mt-4">Title</label>
+  <input
+    name="title"
+    class="form-control"
+    id="exampleInputEmail1"
+    placeholder="제목"
+  />
+</div>
+<div class="form-group">
+  <label for="exampleTextarea" class="form-label mt-4">Content</label>
+  <textarea
+    name="content"
+    class="form-control"
+    id="exampleTextarea"
+    rows="3"
+  ></textarea>
+</div>
+<br/>
+<input type="file" name="photo"/>
+<br/>
+<br/>
+<button type="submit" class="btn btn-secondary">Submit</button>
+</fieldset>
+</form>
+</form>
+{% endblock %}
